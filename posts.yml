@@ -1,0 +1,192 @@
+# Pruuvn LinkedIn post manifest.
+#
+# Each entry drives:
+#   - card image generation  (scripts/generate_cards.py)
+#   - Buffer draft creation  (scripts/push_to_buffer.py)
+#
+# Fields:
+#   id          zero-padded post number
+#   card_type   key into CATALOGUE in generate_cards.py
+#   headline    large display text on the card
+#   subline     small text under the rule on the card
+#   due         ISO 8601 with ET offset — scheduled publish time
+#   draft       true = stay as draft (required for LinkedIn via Buffer)
+#   text        full LinkedIn post body
+#   alt         image alt text for accessibility
+
+defaults:
+  draft: true
+
+posts:
+
+  - id: "01"
+    card_type: nts-intro
+    headline: "Verified once. Recognized everywhere."
+    subline: "Introducing the Network Trust Standard™."
+    due: "2026-08-03T09:00:00-04:00"
+    alt: "Pruuvn card: Verified once. Recognized everywhere."
+    text: |
+      We haven't formally introduced this yet, so here it is.
+
+      NTS stands for the Network Trust Standard™, the framework we built at Pruuvn® to make trust portable. Instead of every organization re-verifying the same credentials, insurance, and compliance history over and over, NTS creates one standard that travels with the member wherever they operate.
+
+      Think of it as infrastructure for trust itself: verified once, recognized everywhere it's needed.
+
+      We built NTS around people first. But the same question, who's accountable for the work, doesn't go away as more of that work gets automated. It just needs an answer that holds for AI agents too.
+
+      Over the next couple weeks, we'll dig into both sides: the human trust network NTS was built on, and where the standard extends from here.
+
+      This is the starting point.
+
+      #NTS #Pruuvn #TrustInfrastructure
+
+  - id: "02"
+    card_type: human-network
+    headline: "Trust doesn't scale by accident."
+    subline: "Every credential in our network was earned, not issued."
+    due: "2026-08-05T09:00:00-04:00"
+    alt: "Pruuvn card: Trust doesn't scale by accident."
+    text: |
+      Trust doesn't scale by accident.
+
+      Every member in our network built their credential the same way: through verified work, real accountability, and a track record that holds up under scrutiny.
+
+      That's what the Network Trust Standard™ was built to protect. Not a badge, a reputation that means something when it travels from one relationship to the next.
+
+      As more of that work becomes automated, the standard that protects it can't change. It just has to extend further.
+
+      #NTS #Pruuvn #TrustInfrastructure
+
+  - id: "03"
+    card_type: ai-agents
+    headline: "Who's accountable for the work?"
+    subline: "The same question. A new kind of agent."
+    due: "2026-08-07T09:00:00-04:00"
+    alt: "Pruuvn card: Who's accountable for the work?"
+    text: |
+      The same question we've always asked about people is now coming for AI agents: who's accountable for the work?
+
+      We built the Network Trust Standard™ around a simple idea: trust has to trace back to someone. As AI agents start acting on behalf of businesses, that idea doesn't change, it just extends. Delegation scoped to a trust anchor. Authority that's derivative, never assumed. Every action still traces back to an accountable party.
+
+      This is the direction we're building toward, and the standard was designed for this moment before it arrived.
+
+      #NTSforAI #Pruuvn #TrustInfrastructure
+
+  - id: "04"
+    card_type: enterprise
+    headline: "Your vendors are verified. Once."
+    subline: "After that, most enterprises are trusting a snapshot that's already out of date."
+    due: "2026-08-11T09:00:00-04:00"
+    alt: "Pruuvn card: Your vendors are verified. Once."
+    text: |
+      Most enterprise vendor verification is a snapshot.
+
+      You check insurance, licensing, and compliance at onboarding. Then the vendor's coverage lapses in month four, and nobody finds out until something goes wrong in month nine.
+
+      The gap isn't diligence. It's that verification was built as an event instead of a state. A record that was accurate the day it was captured, and slowly less true every day after.
+
+      The Network Trust Standard™ treats it as continuous. Verified status that stays current, and travels with the vendor across every network they operate in.
+
+      #NTS #Pruuvn #TrustInfrastructure
+
+  - id: "05"
+    card_type: fleet
+    headline: "We started where trust breaks first."
+    subline: "Roadside and towing taught us what happens when credentials don't travel."
+    due: "2026-08-13T09:00:00-04:00"
+    alt: "Pruuvn card: We started where trust breaks first."
+    text: |
+      Pruuvn® started in towing and roadside.
+
+      That's not an origin story we tell for color. It's where we learned the problem. A driver credentialed with one motor club has to start from zero with the next. Same driver, same equipment, same record, verified again and again because trust doesn't travel between networks.
+
+      Multiply that across a fleet and you get real cost: delayed dispatch, duplicated paperwork, and operators sidelined over credentials they already earned somewhere else.
+
+      We built the Network Trust Standard™ so the credential moves with the operator. Verified once, recognized across the networks that need it.
+
+      #NTS #Pruuvn #TrustInfrastructure
+
+  - id: "06"
+    card_type: thought-leadership
+    headline: "Trust is infrastructure, not paperwork."
+    subline: "Treat it like plumbing and it works. Treat it like filing and it fails."
+    due: "2026-08-18T09:00:00-04:00"
+    alt: "Pruuvn card: Trust is infrastructure, not paperwork."
+    text: |
+      Most organizations treat trust as paperwork. It behaves like infrastructure.
+
+      Paperwork is something you file, store, and retrieve when someone asks. Infrastructure is something everything else quietly depends on, that you only notice when it fails.
+
+      Verification is the second thing. When it works, deals close faster and operators get to work. When it fails, you find out through an incident, an audit, or a claim.
+
+      The difference isn't effort. It's whether trust was designed as a system or accumulated as a pile of documents.
+
+      #NTS #Pruuvn #TrustInfrastructure
+
+  - id: "07"
+    card_type: nts-ai-feature
+    headline: "Who's accountable when the agent acts?"
+    subline: "NTS™ ties every agent action back to the account that authorized it."
+    due: "2026-08-20T09:00:00-04:00"
+    alt: "Pruuvn card: Who's accountable when the agent acts?"
+    text: |
+      An AI agent just took an action inside your business. Who's accountable for it?
+
+      Not a philosophical question. A practical one, and most organizations can't answer it today. Agents operate with credentials that trace back to a service account, a shared key, or nothing at all.
+
+      The Network Trust Standard™ answers it through delegation binding. An agent's authority is derivative, never assumed. It's scoped to the account that authorized it, bounded by action type and time window, and every action logs against both the agent and the account behind it. Unregistered means untrusted by default.
+
+      The principle is the same one we've always applied to people. Trust has to trace back to someone.
+
+      #NTSforAI #Pruuvn #TrustInfrastructure
+
+  - id: "08"
+    card_type: cta
+    headline: "Trust that travels with you."
+    subline: "Get credentialed under the Network Trust Standard™ at pruuvn.com."
+    due: "2026-08-25T09:00:00-04:00"
+    alt: "Pruuvn card: Trust that travels with you."
+    text: |
+      Trust you've already earned shouldn't have to be earned again.
+
+      The Network Trust Standard™ makes verification portable, so your credential is recognized across the networks you operate in instead of rebuilt from scratch in each one.
+
+      Get credentialed at pruuvn.com.
+
+      #NTS #Pruuvn #TrustInfrastructure
+
+  - id: "09"
+    card_type: trust-center
+    headline: "Verification isn't a document. It's a state."
+    subline: "Trust Center™ shows current status across your network, not what was true at onboarding."
+    due: "2026-08-27T09:00:00-04:00"
+    alt: "Pruuvn card: Verification isn't a document. It's a state."
+    text: |
+      Verification isn't a document. It's a state.
+
+      A certificate tells you what was true on the day it was issued. That's useful for about a week. After that it's a claim about the past dressed up as a fact about the present.
+
+      Trust Center™ was built for the difference. It shows current verification status across your network in real time, so you're looking at where things actually stand rather than what was filed at onboarding.
+
+      The question worth asking about any vendor or member isn't "did they pass." It's "are they passing right now."
+
+      #NTS #Pruuvn #TrustInfrastructure
+
+  - id: "10"
+    card_type: why-now
+    headline: "Every network is rebuilding the same wheel."
+    subline: "Same credential. Same checks. Verified over and over, network by network."
+    due: "2026-09-01T09:00:00-04:00"
+    alt: "Pruuvn card: Every network is rebuilding the same wheel."
+    text: |
+      Every network is rebuilding the same wheel.
+
+      A member gets verified by one network. Then the next network runs the same background check, requests the same insurance certificate, and confirms the same license. Same person, same documents, same result, paid for twice.
+
+      Multiply that across every network a member operates in and the waste is enormous. Not just cost, but time, where the real damage shows up as onboarding delays and revenue that sits waiting on paperwork.
+
+      Nothing about that is a technology problem. It's a standards problem. There was never a shared layer for verification to live in, so every network built its own.
+
+      That's what the Network Trust Standard™ is for.
+
+      #NTS #Pruuvn #TrustInfrastructure
