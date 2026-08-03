@@ -1,0 +1,107 @@
+name: Generate posts, cards, and schedule to Buffer
+
+on:
+  # Run automatically every 3 weeks on Tuesday at 8 AM ET (noon UTC)
+  schedule:
+    - cron: "0 12 * * 2/3"      # every 3rd Tuesday (approximate)
+
+  # Or trigger manually with options
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "Number of new posts to generate"
+        type: string
+        default: "5"
+      theme:
+        description: "Optional content theme (e.g. 'healthcare focus'). Leave blank for auto."
+        type: string
+        default: ""
+      dry_run:
+        description: "Print what would happen without writing anything"
+        type: boolean
+        default: true
+      skip_generate_posts:
+        description: "Skip AI post generation (use posts.yml as-is)"
+        type: boolean
+        default: false
+      skip_generate_cards:
+        description: "Skip card image generation (use cards/ as-is)"
+        type: boolean
+        default: false
+      only:
+        description: "Single post id to process (e.g. 03). Blank = all pending."
+        type: string
+        default: ""
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write     # needed to commit generated cards back to the repo
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pillow numpy pyyaml requests
+
+      # ── Step 1: generate post copy via Claude API ──────────────────────────
+      - name: Generate post copy
+        if: ${{ !inputs.skip_generate_posts }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python scripts/generate_posts.py \
+            --count "${{ inputs.count || '5' }}" \
+            ${{ inputs.theme != '' && format('--theme "{0}"', inputs.theme) || '' }} \
+            ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      # ── Step 2: render card images ─────────────────────────────────────────
+      - name: Generate card images
+        if: ${{ !inputs.skip_generate_cards && !inputs.dry_run }}
+        run: |
+          python scripts/generate_cards.py \
+            ${{ inputs.only != '' && format('--only {0}', inputs.only) || '' }}
+
+      # ── Step 3: commit new cards back to the repo ──────────────────────────
+      - name: Commit generated cards and posts.yml
+        if: ${{ !inputs.dry_run }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add cards/ posts.yml
+          git diff --cached --quiet || git commit -m "chore: generate posts + cards $(date -u +%Y-%m-%d)"
+          git push
+
+      # ── Step 4: push to Buffer as drafts ──────────────────────────────────
+      - name: Push to Buffer
+        if: ${{ !inputs.dry_run }}
+        env:
+          BUFFER_TOKEN:      ${{ secrets.BUFFER_TOKEN }}
+          BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
+          ASSET_BASE: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/cards
+        run: |
+          python scripts/push_to_buffer.py \
+            ${{ inputs.only != '' && format('--only {0}', inputs.only) || '' }}
+
+      # ── Step 5: write a summary (always runs, shows up in email) ──────────
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## Pruuvn® LinkedIn Pipeline" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            echo "**Mode:** Dry run — nothing was written or posted." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Mode:** Live run" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Posts generated, cards rendered, and Buffer drafts created." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "> **Next step:** Open Buffer → review each draft → promote to scheduled." >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Run:** \`${{ github.run_id }}\` | **Theme:** ${{ inputs.theme || 'auto' }}" >> $GITHUB_STEP_SUMMARY
